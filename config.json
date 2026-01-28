@@ -232,7 +232,7 @@
             "max_files": 0,
             //log_level: "DEBUG" by default,options:"TRACE","DEBUG","INFO","WARN"
             //The TRACE level is only valid when built in DEBUG mode.
-            "log_level": "DEBUG",
+            "log_level": "WARN",
             //display_local_time: false by default, if true, the log time is displayed in local time
             "display_local_time": false
         },
@@ -327,23 +327,23 @@
             "config": {
                 "path": "/metrics"
             }
-        },
-        {
-            "name": "drogon::plugin::AccessLogger",
-            "dependencies": [],
-            "config": {
-                "use_spdlog": false,
-                "log_path": "",
-                "log_format": "",
-                "log_file": "access.log",
-                "log_size_limit": 0,
-                "use_local_time": true,
-                "log_index": 0,
-                // "show_microseconds": true,
-                // "custom_time_format": "",
-                // "use_real_ip": false
-            }
         }
+        // {
+        //     "name": "drogon::plugin::AccessLogger",
+        //     "dependencies": [],
+        //     "config": {
+        //         "use_spdlog": false,
+        //         "log_path": "",
+        //         "log_format": "",
+        //         "log_file": "access.log",
+        //         "log_size_limit": 0,
+        //         "use_local_time": true,
+        //         "log_index": 0,
+        //         // "show_microseconds": true,
+        //         // "custom_time_format": "",
+        //         // "use_real_ip": false
+        //     }
+        // }
     ],
     //custom_config: custom configuration for users. This object can be get by the app().getCustomConfig() method. 
     "custom_config": {}
