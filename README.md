@@ -21,12 +21,15 @@ Without RapidJSON, the C++ code with the default Drogon JSON parser was actually
 3- **We can parallelize more.** Our server was a c8gn.48xlarge instance with 192 CPU cores. Based on the mathematically proven Amdahl’s Law which is as follows:
 
 > Amdahl’s Law:
+> 
 > $$\text{Speed up} = \frac{1}{(1 - p) + \frac{p}{\text{core count}}}$$
+> 
 > _P is the fraction of the program that is parallelizable._
 
 We can infer that the C++ Drogon threading version will be much faster than the Node.js cluster version. In Node.js, the parent process acts as a single-threaded dispatcher. It must accept every incoming connection and hand it off to a worker through inter-process communication ([read more here](https://nodejs.org/api/cluster.html#how-it-works)). For that reason, let's say that we can parallelize 95% of our program. If we plug the numbers into the equation we get:
 
 > Amdahl’s Law For Node.js:
+> 
 > $$\text{Speed up}=\frac{1}{(1 - 0.95) + \frac{0.95}{\text{192}}}\approx 18.20$$
 
 This means that if we can parallelize 95% of our program, we can only achieve around 18x performance boost if we have 192 CPU cores. If we change the core count to a whopping 700 cores, the speed up will only be 19.5. So adding more cores won't linearly improve performance if our parallelizable factor isn't very close to 1.
@@ -36,6 +39,7 @@ This means that if we can parallelize 95% of our program, we can only achieve ar
 In C++, Drogon uses a native multi-threaded event loop which allows almost every stage of a request to happen in parallel across all cores without a single bottleneck process. For that reason, let's say that we can parallelize 99% of our program. If we do the math again:
 
 > Amdahl’s Law For C++ with Drogon:
+> 
 > $$\text{Speed up}=\frac{1}{(1 - 0.99) + \frac{0.99}{\text{192}}}\approx 66$$
 
 So we can speed up the C++ code dramatically more simply because we can parallelize just a few more percent of our application. The difference will be negligible if we only have a few cores, which is common for many real-world applications, but when we move to extreme environments and the busiest routes in the world, this difference gets significantly more noticeable.
